@@ -5,8 +5,8 @@ from matplotlib.markers import MarkerStyle
 import numpy as np
 from datetime import datetime
 
-N = 100
-ITERATIONS = 1
+N = 200
+ITERATIONS = 10
 
 
 def plot_test_time_scatter(sizes, times):
@@ -46,11 +46,14 @@ def test_algorithm_runtime(algorithm, min_input, max_input, iterations):
     test_times = []
     for i in range(min_input, max_input+1):
         test_list = [random.random() for j in range(i)]
-        
-        time1 = datetime.now()
-        algorithm(test_list)
-        time_diff = (datetime.now() - time1)*1e9
-        test_times.append(time_diff.total_seconds())
+
+        ## Repeat algorithm with one size to improve accuracy
+        time_sum = 0
+        for j in range(iterations):
+            start_time = datetime.now()
+            algorithm(test_list)
+            time_sum+=((datetime.now() - start_time)*1e9).total_seconds()
+        test_times.append(time_sum/iterations)
 
     plot_test_time_scatter(test_sizes, test_times)
 
