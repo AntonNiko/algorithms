@@ -1,5 +1,4 @@
 #!/home/anton/anaconda3/bin/python
-
 from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.markers import MarkerStyle
@@ -20,7 +19,6 @@ def plot_test_time_scatter(sizes, times):
         times (list): List of size x of float or integer numbers that
                       represent a time related to data of size x
     """
-
     ## Setup size, color, and corresponding x & y coordinates
     area = np.pi * 3
     colors = (0,0,0) 
@@ -50,6 +48,16 @@ def smallest_elem_index(input_list):
     return min_index
 
 def sort_last_list_element(input_list):
+    """Sorts the last element of a list into the rest of the last that is ordered
+    in an ascending order
+
+    Args:
+        input_list (list): List of at least 2 elements, with all except the last
+                           element being ordered in an ascending manner
+    Returns:
+        input_list (list): An ordered list of numbers in an ascending order
+    """
+    ## Method returns exception at line 73 if length is less than 2
     if len(input_list) < 2:
         raise Exception("List must contain at least 2 elements for sorting")
     
@@ -67,8 +75,18 @@ def sort_last_list_element(input_list):
     return input_list
 
 def insertion_sort(input_list):
+    """Implementation of Insertion Sort which orders a list of numbers in
+    ascending manner
+
+    Args:
+        input_list (list): List of numbers which can be distributed in any order
+    Returns:
+        input_list (list): Ordered list of numbers in an ascending manner
+
+    """
     for i in range(1,len(input_list)):
         if input_list[i] < input_list[i-1]:
+            ## If element is not in order, sort in the preceeding elements
             input_list[:i+1] = sort_last_list_element(input_list[:i+1])
     return input_list
 
