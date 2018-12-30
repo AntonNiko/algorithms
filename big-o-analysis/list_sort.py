@@ -49,6 +49,29 @@ def smallest_elem_index(input_list):
             min_index = i
     return min_index
 
+def sort_last_list_element(input_list):
+    if len(input_list) < 2:
+        raise Exception("List must contain at least 2 elements for sorting")
+    
+    temp = input_list[-1]
+    for i in range(len(input_list)-2, -1, -1):
+        if input_list[i] < temp or i==0:
+            break
+    for j in range(len(input_list)-1, i, -1):
+        input_list[j] = input_list[j-1]
+
+    if i==0 and input_list[0] > temp:
+        input_list[i] = temp
+    else:
+        input_list[i+1] = temp
+    return input_list
+
+def insertion_sort(input_list):
+    for i in range(1,len(input_list)):
+        if input_list[i] < input_list[i-1]:
+            input_list[:i+1] = sort_last_list_element(input_list[:i+1])
+    return input_list
+
 def selection_sort(input_list):
     """Implementation of Selection Sort which orders a list of numbers
 
@@ -82,7 +105,6 @@ def test_algorithm_runtime(algorithm, min_input, max_input, iterations):
     test_times = []
     for i in range(min_input, max_input+1):
         test_list = [random.random() for j in range(i)]
-
         ## Repeat algorithm with one size "iterations" times to improve
         ## accurracy
         time_sum = 0
@@ -94,9 +116,7 @@ def test_algorithm_runtime(algorithm, min_input, max_input, iterations):
 
     ## Plot running time results w/ matplotlib
     plot_test_time_scatter(test_sizes, test_times)
-
-def main():
-    pass
     
 if __name__ == "__main__":
-    test_algorithm_runtime(selection_sort, 1, N, ITERATIONS)
+    ##test_algorithm_runtime(selection_sort, 1, N, ITERATIONS)
+    print(insertion_sort([-1,-3,2,0,5,-5]))
