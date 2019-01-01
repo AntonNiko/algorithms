@@ -6,11 +6,11 @@ import numpy as np
 import random
 
 ## Maximum size of data to test algorithm
-N = 200
+N = 500
 ## Number of iterations when testing each size
 ITERATIONS = 10
 
-def plot_test_time_scatter(sizes, times):
+def plot_test_time_scatter_single(sizes, times):
     """Plots a scatter plot of data size and times using matplotlib
 
     Args:
@@ -28,6 +28,39 @@ def plot_test_time_scatter(sizes, times):
     ax.scatter(x, y, s = area, c = colors)
 
     ## Plot scatter plot of test time
+    plt.show()
+    
+def plot_test_time_scatter_mult(sizes, times, colors=None):
+    """Plots a scatter plot of data size and times of one or more data
+    pairs. plot_test_time_scatter_single() is a specific case of this
+    method.
+
+    Args:
+        sizes (list): List of size n*x that represent sizes related to
+                      testing data
+        times (list): List of size n*x that represent times related to
+                      result of testing data
+        colors (list): List of size n, with elements of type tuple that
+                      are a hex representation of colors
+    """
+    if len(sizes)!=len(times) or len(times)!=len(colors) or len(colors)!=len(sizes):
+            raise Exception("Length of all arguments must all be the same: len()")
+                            
+    ## Setup size of all coordinates
+    area = np.pi * 3
+
+    ## Set up colors
+##    if colors is None:
+##        colors = [(0,0,0) for i in range(len(sizes))]
+
+    ## Convert list argument to numpy array for matplotlib compatibility
+    x = np.array(sizes)
+    y = np.array(times)
+
+    fig, ax = plt.subplots()
+    for i in range(len(sizes)):
+        ax.scatter(x[i], y[i], s=area, c=colors[i])
+    ## Plot scatter plot
     plt.show()
 
 def smallest_elem_index(input_list):
@@ -154,9 +187,9 @@ def test_algorithm_runtime(algorithm, min_input, max_input, iterations):
         test_times.append(time_sum/iterations)
 
     ## Plot running time results w/ matplotlib
-    plot_test_time_scatter(test_sizes, test_times)
+    plot_test_time_scatter_single(test_sizes, test_times)
     
 if __name__ == "__main__":
-    ##test_algorithm_runtime(insertion_sort, 2, N, ITERATIONS)
-    a = [random.randrange(1,100) for i in range(20)]
-    print(shell_sort(a))
+    test_algorithm_runtime(shell_sort, 2, N, ITERATIONS)
+    ##a = [random.randrange(1,100) for i in range(20)]
+    ##print(shell_sort(a))
