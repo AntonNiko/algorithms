@@ -106,6 +106,27 @@ def selection_sort(input_list):
         input_list[i] = input_list[smallest_index+i]
         input_list[smallest_index+i] = temp_item
     return input_list
+
+def shell_sort(input_list):
+    """Implementation of the Shell Sort algorithm to order a list of numbers
+
+    Args:
+        input_list (list): List of integers/floats
+    Returns:
+        input_list (list): Sorted list in an ascending order
+    """
+    h = int(len(input_list)/3)
+    while True:
+        if h<2:
+            h = 1
+            input_list = insertion_sort(input_list)
+            break
+        else:
+            h_unsorted_list = input_list[::h]
+            h_sorted_list = insertion_sort(h_unsorted_list)
+            input_list[::h] = h_sorted_list
+            h = int(h/3)
+    return input_list
     
 def test_algorithm_runtime(algorithm, min_input, max_input, iterations):
     """Implements an algorithm with data of various sizes to visualize
@@ -136,5 +157,6 @@ def test_algorithm_runtime(algorithm, min_input, max_input, iterations):
     plot_test_time_scatter(test_sizes, test_times)
     
 if __name__ == "__main__":
-    test_algorithm_runtime(insertion_sort, 2, N, ITERATIONS)
-    ##print(insertion_sort([-1,-3,2,0,5,-5]))
+    ##test_algorithm_runtime(insertion_sort, 2, N, ITERATIONS)
+    a = [random.randrange(1,100) for i in range(20)]
+    print(shell_sort(a))
